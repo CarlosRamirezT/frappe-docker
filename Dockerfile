@@ -1,6 +1,13 @@
 # Use Ubuntu 20.04 as the base image
 FROM ubuntu:20.04
 
+ARG FRAPPE_VERSION=v13.33.0
+ARG ERPNEXT_VERSION=v13.34.0
+ARG BENCH_VERSION=v5.2.1
+ARG BENCH_NAME=frappe-bench
+ARG FRAPPE_USER=frappe
+ARG SITE_NAME=erp.development.com
+
 # Set non-interactive mode for apt-get
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -89,7 +96,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create a non-root user
-RUN useradd -ms /bin/bash frappe
+RUN useradd -ms /bin/bash ${FRAPPE_USER}
 
 # Set the user as sudoer without password
 RUN echo "frappe ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -99,15 +106,15 @@ USER frappe
 WORKDIR /home/frappe
 
 # Clone ERPNext repository and set up bench
-RUN git clone https://github.com/frappe/bench.git --branch v5.2.1 --depth 1 bench-repo \
+RUN git clone https://github.com/frappe/bench.git --branch ${BENCH_VERSION} --depth 1 bench-repo \
     && sudo pip3 install -e bench-repo
 
 # Create a new bench environment
-RUN bench init erpnext-dev --frappe-branch v13.34.0 --python /usr/bin/python3 \
-    && cd erpnext-dev \
-    && bench get-app erpnext https://github.com/frappe/erpnext --branch v13.34.0 \
-    && bench new-site your-site-name \
-    && bench --site your-site-name install-app erpnext
+RUN bench init ${BENCH_NAME} --frappe-branch ${FRAPPE_VERSION} --python /usr/bin/python3 \
+    && cd ${BENCH_NAME} \
+    && bench get-app erpnext https://github.com/frappe/erpnext --branch ${ERPNEXT_VERSION} \
+    && bench new-site ${SITE_NAME} \
+    && bench --site ${SITE_NAME} install-app erpnext
 
 # Expose the required ports
 EXPOSE 8000 9000
