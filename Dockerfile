@@ -34,13 +34,15 @@ RUN useradd -ms /bin/bash ${FRAPPE_USER}
 # Set the user as sudoer without password
 RUN echo "frappe ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+RUN usermod -aG sudo ${FRAPPE_USER}
+
 # Switch to the frappe user
-USER frappe
+USER ${FRAPPE_USER}
 WORKDIR /home/frappe
 
 # Clone ERPNext repository and set up bench
 RUN git clone https://github.com/frappe/bench.git --branch ${BENCH_VERSION} --depth 1 bench-repo \
-    && sudo pip3 install -e bench-repo
+    && pip3 install -e bench-repo
 
 # Create a new bench environment
 RUN bench init ${BENCH_NAME} --frappe-branch ${FRAPPE_VERSION} --python /usr/bin/python3 \
