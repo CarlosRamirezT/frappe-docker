@@ -23,77 +23,10 @@ RUN apt-get update && \
     python3-dev \
     python3-pip \
     libmysqlclient-dev \
-    mariadb-client \
-    libjpeg8-dev \
-    liblcms2-dev \
-    libwebp-dev \
-    libtiff5-dev \
-    libopenjp2-7-dev \
-    zlib1g-dev \
-    libfreetype6-dev \
-    libx11-dev \
-    libxcb1-dev \
-    libx11-xcb-dev \
-    libxcb-glx0-dev \
-    libxcb-shm0-dev \
-    libxcb-render0-dev \
-    libxi-dev \
-    libxtst-dev \
-    libxcomposite-dev \
-    libxdamage-dev \
-    libxfixes-dev \
-    libxext-dev \
-    libxrandr-dev \
-    libdbus-1-dev \
-    libegl1-mesa-dev \
-    libgl1-mesa-dev \
-    libv4l-dev \
-    libglib2.0-dev \
-    libsasl2-dev \
-    libffi-dev \
-    libjpeg62-turbo-dev \
-    libfontconfig1-dev \
-    libxslt1-dev \
-    libxml2-dev \
-    libexif-dev \
-    libxrender1 \
-    fonts-cantarell \
-    xfonts-100dpi \
-    xfonts-75dpi \
-    xfonts-base \
-    xfonts-scalable \
-    poppler-utils \
-    tcl8.6-dev \
-    tk8.6-dev \
-    uuid-dev \
-    libssl-dev \
-    libreadline-dev \
-    libbz2-dev \
-    libsqlite3-dev \
-    libncurses5-dev \
-    libncursesw5-dev \
-    libffi-dev \
-    libgdbm-dev \
-    libc6-dev \
-    libsqlite3-dev \
-    libncurses5-dev \
-    libncursesw5-dev \
-    libreadline-dev \
-    libdb5.3-dev \
-    libexpat1-dev \
-    liblzma-dev \
-    libffi-dev \
-    libssl-dev \
-    libncurses-dev \
-    libdb-dev \
-    libgdbm-dev \
-    tk-dev \
-    zlib1g-dev \
-    libffi-dev \
-    libssl-dev \
-    libpng-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    mariadb-client
+
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create a non-root user
 RUN useradd -ms /bin/bash ${FRAPPE_USER}
