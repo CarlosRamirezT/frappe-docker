@@ -12,19 +12,17 @@ ARG SITE_NAME=erp.development.com
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update the package repository and install essential dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    software-properties-common \
-    git \
-    curl \
-    sudo \
-    wget \
-    build-essential \
-    python3-dev \
-    python3-pip \
-    libmysqlclient-dev \
-    mariadb-client \
-    markupsafe
+RUN apt-get update
+RUN apt-get install -y pip
+
+# Copy the dependencies.txt file into the container
+COPY requirements_bench.txt /tmp/
+COPY requirements_frappe.txt /tmp/
+COPY requirements_erpnext.txt /tmp/
+
+RUN pip install --no-cache-dir -r /tmp/requirements_bench.txt
+RUN pip install --no-cache-dir -r /tmp/requirements_frappe.txt
+RUN pip install --no-cache-dir -r /tmp/requirements_erpnext.txt
 
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
