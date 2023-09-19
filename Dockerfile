@@ -13,7 +13,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update the package repository and install essential dependencies
 RUN apt-get update
-RUN apt-get install -y pip
+RUN apt-get install -y pip git
 
 # Copy the dependencies.txt file into the container
 COPY requirements_bench.txt /tmp/
@@ -22,7 +22,8 @@ COPY requirements_erpnext.txt /tmp/
 
 RUN pip install --no-cache-dir -r /tmp/requirements_bench.txt
 RUN pip install --no-cache-dir -r /tmp/requirements_frappe.txt
-RUN pip install --no-cache-dir -r /tmp/requirements_erpnext.txt
+RUN pip install --no-cache-dir --default-timeout=120 -r /tmp/requirements_erpnext.txt
+
 
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
