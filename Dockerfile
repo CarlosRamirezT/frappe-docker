@@ -23,7 +23,8 @@ RUN apt-get update && \
     python3-dev \
     python3-pip \
     libmysqlclient-dev \
-    mariadb-client
+    mariadb-client \
+    markupsafe
 
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
